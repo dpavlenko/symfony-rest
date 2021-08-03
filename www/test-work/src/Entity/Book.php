@@ -52,7 +52,7 @@ class Book implements TranslatableInterface
     {
         if (!$this->authors->contains($author)) {
             $this->authors[] = $author;
-            $author->setBook($this);
+            $author->addBook($this);
         }
 
         return $this;
