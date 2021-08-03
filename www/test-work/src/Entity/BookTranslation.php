@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Repository\BookRepository;
+use App\Repository\BookTranslationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,7 +10,7 @@ use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
 use \Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 
 /**
- * @ORM\Entity(repositoryClass=BookRepository::class)
+ * @ORM\Entity(repositoryClass=BookTranslationRepository::class)
  */
 class BookTranslation implements TranslationInterface
 {

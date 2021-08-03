@@ -44,9 +44,9 @@ function createBookJSON(ruInputId, enInputId, author1, author2, author3) {
     return JSON.stringify(name);
 }
 
-function sendPostAjaxJSON(path, json, responseDivId) {
+function sendPostAjaxJSON(path, json, responseContainerId) {
     let xmlhttp = new XMLHttpRequest(),
-        respDiv = document.getElementById(responseDivId);
+        respDiv = document.getElementById(responseContainerId);
 
     xmlhttp.open("POST", path);
     xmlhttp.setRequestHeader("Content-Type", "application/json");
@@ -55,7 +55,7 @@ function sendPostAjaxJSON(path, json, responseDivId) {
     xmlhttp.addEventListener("readystatechange", () => {
         if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
             let str = JSON.parse(unescape(xmlhttp.responseText));//декодирование
-            respDiv.innerText = JSON.stringify(str)
+            respDiv.innerText = JSON.stringify(str, null, 2)
         }
     });
 

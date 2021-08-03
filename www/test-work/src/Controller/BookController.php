@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Author;
 use App\Entity\Book;
+use App\Entity\BookTranslation;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -88,5 +89,45 @@ class BookController extends AbstractController
 
 
         return $this->json($book->toArray($request->getLocale()));
+    }
+
+    /**
+     * @Route(
+     *     "/book/search",
+     *     name="api_search_book",
+     *     methods={"POST"}
+     * )
+     */
+    public function searchBook(Request $request): JsonResponse
+    {
+        $json = json_decode($request->getContent(), true);
+
+        if (is_null($json)) {
+            return $this->json(['status' => false, 'status_text' => 'Ошибка', 'error_text' => 'Допущена ошибка в формате JSON-даных.']);
+        } elseif (empty($json['book_name'])) {
+            return $this->json(['status' => false, 'status_text' => 'Ошибка', 'error_text' => 'Не указано название книги для поиска']);
+        }
+
+        $repo = $this->getDoctrine()->getManager()->getRepository(Book::class);
+        $books = $repo->getBooksByName($json['book_name']);
+
+        if (empty($books)) {
+            return $this->json(['message' => 'Не найдено ни одной книги']);
+        }
+
+        $data = [];
+
+        foreach ($books as $b) {
+            $translations = $b->getTranslations();
+
+            if (!empty($translations)) {
+                $translations = $translations->toArray();
+                $tr = reset($translations);
+                $locale = $tr ? $tr->getLocale() : 'ru';
+            }
+
+            $data[] = $b->toArray($locale);
+        }
+        return $this->json($data);
     }
 }

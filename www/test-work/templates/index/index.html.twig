@@ -20,7 +20,7 @@
     </style>
 
     <div class="wrapper">
-        <h1> ✅ Тестовое задание для PHP/Symfony разработчика</h1>
+        <h1> ✅ Тестовое задание на PHP/Symfony</h1>
 
         Приложение использует AJAX для отправки REST запросов. Выберите необходимое действие.
         <ul>
@@ -29,8 +29,11 @@
         </ul>
         <br>
 
-        <button id="get-author-button">Показать автора</button>&nbsp;<button id="get-book-button">Показать книгу
-        </button>
+        <button id="search-book-button">Найти книгу</button>&nbsp;<div style="display: inline-block">Название книги:
+            <input id="book-search" type="text" style="width: 94px" value=""></div>
+        <br>
+        <button id="get-author-button">Показать автора</button>&nbsp;
+        <button id="get-book-button">Показать книгу</button>
         <div style="display: inline-block">id = <input id="item-id" type="number" style="width: 52px" value="1"></div>
         <div style="display: inline-block">Язык
             <select id="locale">
@@ -39,14 +42,18 @@
             </select>
         </div>
         Ответ:
-        <div><pre id="ajax-response"></pre></div>
+        <div>
+            <pre id="ajax-response"></pre>
+        </div>
 
     </div>
 {% endblock %}
 {% block javascripts_bottom %}
     <script type="text/javascript">
         let bookButton = document.getElementById('get-book-button'),
-            authorButton = document.getElementById('get-author-button');
+            authorButton = document.getElementById('get-author-button'),
+            searchButton = document.getElementById('search-book-button');
+
 
         function sedGetRequest(type) {
             let id = document.getElementById('item-id'),
@@ -57,6 +64,16 @@
             let path = `/${locale}/${type}/${id}`;
 
             getItemByPath(path, 'ajax-response');
+        }
+
+        searchButton.onclick = function () {
+            let searchText = document.getElementById('book-search');
+
+            let json = {
+                "book_name": searchText.value
+            }
+
+            sendPostAjaxJSON('/book/search', JSON.stringify(json), 'ajax-response')
         }
 
         bookButton.onclick = function () {
