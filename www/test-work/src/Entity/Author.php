@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AuthorRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
@@ -23,23 +24,35 @@ class Author implements TranslatableInterface
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Book::class, inversedBy="author")
+     * @ORM\ManyToMany(targetEntity=Book::class, inversedBy="authors")
      */
-    private $book;
+    private $books;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getBook(): ?Book
+    public function getBooks(): Collection
     {
-        return $this->book;
+        return $this->books;
     }
 
-    public function setBook(?Book $book): self
+    public function addBook(Book $book): self
     {
-        $this->book = $book;
+        if (!$this->books->contains($book)) {
+            $this->books[] = $book;
+        }
+
+        return $this;
+    }
+
+    public function removeBook(Book $book): self
+    {
+        if($this->books->contains($book)) {
+            $this->books->removeElement($book);
+            $book->removeAuthor($this);
+        }
 
         return $this;
     }

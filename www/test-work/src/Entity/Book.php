@@ -26,13 +26,13 @@ class Book implements TranslatableInterface
 
 
     /**
-     * @ORM\OneToMany(targetEntity=Author::class, mappedBy="book")
+     * @ORM\ManyToMany(targetEntity=Author::class, mappedBy="book")
      */
-    private $author;
+    private $authors;
 
     public function __construct()
     {
-        $this->author = new ArrayCollection();
+        $this->authors = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -43,15 +43,15 @@ class Book implements TranslatableInterface
     /**
      * @return Collection|Author[]
      */
-    public function getAuthor(): Collection
+    public function getAuthors(): Collection
     {
-        return $this->author;
+        return $this->authors;
     }
 
     public function addAuthor(Author $author): self
     {
-        if (!$this->author->contains($author)) {
-            $this->author[] = $author;
+        if (!$this->authors->contains($author)) {
+            $this->authors[] = $author;
             $author->setBook($this);
         }
 
@@ -60,11 +60,9 @@ class Book implements TranslatableInterface
 
     public function removeAuthor(Author $author): self
     {
-        if ($this->author->removeElement($author)) {
+        if ($this->authors->removeElement($author)) {
             // set the owning side to null (unless already changed)
-            if ($author->getBook() === $this) {
-                $author->setBook(null);
-            }
+                $author->removeBook($this);
         }
 
         return $this;
