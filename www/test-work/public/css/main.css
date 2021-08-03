@@ -1,0 +1,12 @@
+form label {
+    padding-right: 5px;
+    text-align: right;
+    width: 200px;
+    display: inline-block;
+}
+
+#form_json {
+    display: inline-block;
+    margin-top: 5px;
+    width: 374px;
+}

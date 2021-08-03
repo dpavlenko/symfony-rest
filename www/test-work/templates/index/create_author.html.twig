@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Создать автора{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset("javascript/main.js") }}"></script>
+{% endblock %}
+
+{% block body %}
+    <style>
+        .wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>Создать автора</h1>
+
+        {{ form(author_form) }}
+        <br>
+        <hr>
+        <button id="gen-JSON">Сгенерировать JSON</button>&nbsp;<button id="send-JSON">Отправить запрос</button>
+        <br>
+        {{ form(json_form) }}
+        <br>
+
+        <label for="response">Ответ:</label>
+        <div id="response"></div>
+    </div>
+{% endblock %}
+{% block javascripts_bottom %}
+    <script type="text/javascript">
+        let genJSONButton = document.getElementById('gen-JSON'),
+            sendJSONButton = document.getElementById('send-JSON');
+
+        genJSONButton.onclick = function () {
+            let area = document.getElementById('form_json'),
+                AuthorJSON = createAuthorJSON('form_ru_name', 'form_en_name');
+
+            if (AuthorJSON) {
+                area.value = AuthorJSON;
+            }
+        }
+
+        sendJSONButton.onclick = function () {
+            let jsonText = document.getElementById('form_json').value;
+            sendPostAjaxJSON('{{ path('api_create_author') }}', jsonText, 'response');
+        }
+
+    </script>
+{% endblock %}
