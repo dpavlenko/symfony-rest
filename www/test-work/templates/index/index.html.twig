@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}#Тестовое задание для middle/senior PHP/Symfony разработчика{% endblock %}
-
+{% block javascripts %}
+    <script src="{{ asset("javascript/main.js") }}"></script>
+{% endblock %}
 {% block body %}
     <style>
         .wrapper {
@@ -20,9 +22,50 @@
     <div class="wrapper">
         <h1> ✅ Тестовое задание для PHP/Symfony разработчика</h1>
 
+        Приложение использует AJAX для отправки REST запросов. Выберите необходимое действие.
         <ul>
-            <li><a href="{{ path("create_author") }}">Добавить автора книги</a></li>
-            <li><a href="{{ path("create_book") }}">Добавить книгу</a></li>
+            <li><a target="_blank" href="{{ path("create_author") }}">Добавить автора книги</a></li>
+            <li><a target="_blank" href="{{ path("create_book") }}">Добавить книгу</a></li>
         </ul>
+        <br>
+
+        <button id="get-author-button">Показать автора</button>&nbsp;<button id="get-book-button">Показать книгу
+        </button>
+        <div style="display: inline-block">id = <input id="item-id" type="number" style="width: 52px" value="1"></div>
+        <div style="display: inline-block">Язык
+            <select id="locale">
+                <option value="ru" autofocus>Русский</option>
+                <option value="en" autofocus>Английский</option>
+            </select>
+        </div>
+        Ответ:
+        <div><pre id="ajax-response"></pre></div>
+
     </div>
+{% endblock %}
+{% block javascripts_bottom %}
+    <script type="text/javascript">
+        let bookButton = document.getElementById('get-book-button'),
+            authorButton = document.getElementById('get-author-button');
+
+        function sedGetRequest(type) {
+            let id = document.getElementById('item-id'),
+                locale = document.getElementById('locale');
+            id = parseInt(id.value);
+            locale = locale.value;
+
+            let path = `/${locale}/${type}/${id}`;
+
+            getItemByPath(path, 'ajax-response');
+        }
+
+        bookButton.onclick = function () {
+            sedGetRequest('book');
+        }
+
+        authorButton.onclick = function () {
+            sedGetRequest('author');
+        }
+
+    </script>
 {% endblock %}

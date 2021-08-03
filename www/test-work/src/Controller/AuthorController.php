@@ -61,21 +61,22 @@ class AuthorController extends AbstractController
     /**
      * @Route(
      *     "/{_locale}/author/{id}",
-     *     name="get_author",
+     *     name="api_get_author",
      *     requirements={"_locale": "en|ru"},
      *     methods={"GET"}
      * )
      */
-    public function getAuthor(int $id): JsonResponse
+    public function getAuthor(int $id, Request $request): JsonResponse
     {
-        $repo = $this->getDoctrine()->getManager()->getRepository(Author::class);
 
+        $repo = $this->getDoctrine()->getManager()->getRepository(Author::class);
         $author = $repo->find($id);
 
+        if (!$author) {
+            return $this->json(['status' => false, 'error' => 'Ошибка', 'error_text' => 'Автор не найден']);
+        }
 
-        $data = [
-            "author" => $author->translate('en')->getName()
-        ];
-        return $this->json($data);
+
+        return $this->json($author->toArray($request->getLocale()));
     }
 }

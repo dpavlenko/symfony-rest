@@ -67,4 +67,26 @@ class BookController extends AbstractController
             return $this->json(['status' => false, 'error_text' => 'Произошел сбой БД...']);
         }
     }
+
+    /**
+     * @Route(
+     *     "/{_locale}/book/{id}",
+     *     name="api_get_book",
+     *     requirements={"_locale": "en|ru"},
+     *     methods={"GET"}
+     * )
+     */
+    public function getBook(int $id, Request $request): JsonResponse
+    {
+
+        $repo = $this->getDoctrine()->getManager()->getRepository(Book::class);
+        $book = $repo->find($id);
+
+        if (!$book) {
+            return $this->json(['status' => false, 'error' => 'Ошибка', 'error_text' => 'Книга не найдена']);
+        }
+
+
+        return $this->json($book->toArray($request->getLocale()));
+    }
 }

@@ -26,7 +26,7 @@ class Book implements TranslatableInterface
 
 
     /**
-     * @ORM\ManyToMany(targetEntity=Author::class, mappedBy="book")
+     * @ORM\ManyToMany(targetEntity=Author::class, mappedBy="books")
      */
     private $authors;
 
@@ -66,5 +66,20 @@ class Book implements TranslatableInterface
         }
 
         return $this;
+    }
+
+    public function toArray($locale): array
+    {
+        $authorsArray = [];
+        $authorsEntities = $this->getAuthors();
+        foreach ($authorsEntities as $a) {
+            $authorsArray [] = $a->toArray($locale);
+        }
+
+        return [
+            'Id' => $this->getId(),
+            'Name' => $this->translate($locale)->getName(),
+            'Authors' => $authorsArray
+        ];
     }
 }

@@ -56,4 +56,13 @@ class Author implements TranslatableInterface
 
         return $this;
     }
+
+    public function toArray($locale): array
+    {
+        return [
+            'Id' => $this->getId(),
+            'Name' => $this->translate($locale)->getName()
+        ];
+
+    }
 }

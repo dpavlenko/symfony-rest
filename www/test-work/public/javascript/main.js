@@ -62,3 +62,23 @@ function sendPostAjaxJSON(path, json, responseDivId) {
     xmlhttp.send(json);
     respDiv.innerText = 'Запрос отправлен, ожидайте...';
 }
+
+function getItemByPath(path, responseDivId) {
+
+    let xmlhttp = new XMLHttpRequest(),
+        respDiv = document.getElementById(responseDivId);
+
+    xmlhttp.open("GET", path);
+    xmlhttp.setRequestHeader("Content-Type", "application/json");
+
+
+    xmlhttp.addEventListener("readystatechange", () => {
+        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+            let str = JSON.parse(unescape(xmlhttp.responseText));//декодирование
+            respDiv.innerText = JSON.stringify(str, null, 2)
+        }
+    });
+
+    xmlhttp.send();
+    respDiv.innerText = 'Запрос отправлен, ожидайте...';
+}
