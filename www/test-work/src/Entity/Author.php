@@ -49,7 +49,7 @@ class Author implements TranslatableInterface
 
     public function removeBook(Book $book): self
     {
-        if($this->books->contains($book)) {
+        if ($this->books->contains($book)) {
             $this->books->removeElement($book);
             $book->removeAuthor($this);
         }

@@ -12,7 +12,7 @@ use \Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 /**
  * @ORM\Entity(repositoryClass=BookRepository::class)
  */
-class BookTranslation  implements TranslationInterface
+class BookTranslation implements TranslationInterface
 {
     use TranslationTrait;
 

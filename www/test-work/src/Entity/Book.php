@@ -62,7 +62,7 @@ class Book implements TranslatableInterface
     {
         if ($this->authors->removeElement($author)) {
             // set the owning side to null (unless already changed)
-                $author->removeBook($this);
+            $author->removeBook($this);
         }
 
         return $this;
