@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 //use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
+use App\Services\Locale;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,8 +46,8 @@ class AuthorController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $author = new Author();
-        $author->translate('ru')->setName($json['ruName']);
-        $author->translate('en')->setName($json['enName']);
+        $author->translate(Locale::RU)->setName($json['ruName']);
+        $author->translate(Locale::EN)->setName($json['enName']);
         $em->persist($author);
         $author->mergeNewTranslations();
         $em->flush();

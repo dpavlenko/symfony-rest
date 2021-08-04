@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Author;
 use App\Entity\Book;
+use App\Services\Locale;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -1286,8 +1287,8 @@ class AppFixtures extends Fixture
             . $this->names[array_rand($this->names)];
 
         $author = new Author();
-        $author->translate('ru')->setName($name);
-        $author->translate('en')->setName($this->lat($name));
+        $author->translate(Locale::RU)->setName($name);
+        $author->translate(Locale::EN)->setName($this->lat($name));
         $manager->persist($author);
         $author->mergeNewTranslations();
         $manager->flush();
@@ -1296,8 +1297,8 @@ class AppFixtures extends Fixture
         $name = $this->words[array_rand($this->words)];
         $name = mb_convert_case($name, MB_CASE_TITLE, "UTF-8");
 
-        $book->translate('ru')->setName($name);
-        $book->translate('en')->setName($this->lat($name));
+        $book->translate(Locale::RU)->setName($name);
+        $book->translate(Locale::EN)->setName($this->lat($name));
         $book->addAuthor($author);
         $manager->persist($book);
         $book->mergeNewTranslations();

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Author;
 use App\Entity\Book;
 use App\Entity\BookTranslation;
+use App\Services\Locale;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,8 +34,8 @@ class BookController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $book = new Book();
-        $book->translate('ru')->setName($json['ruName']);
-        $book->translate('en')->setName($json['enName']);
+        $book->translate(Locale::RU)->setName($json['ruName']);
+        $book->translate(Locale::EN)->setName($json['enName']);
         $em->persist($book);
         $book->mergeNewTranslations();
 
