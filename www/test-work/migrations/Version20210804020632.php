@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use App\Services\Locale;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -1317,15 +1318,15 @@ final class Version20210804020632 extends AbstractMigration
                 . $this->names[array_rand($this->names)]
                 . $this->names[array_rand($this->names)];
 
-            $data[self::T_AUTHOR_TRANSLATION][] = "($id,'$authorName','ru')";
+            $data[self::T_AUTHOR_TRANSLATION][] = "($id,'$authorName','" . Locale::RU . "')";
             $authorName = $this->lat($authorName);
-            $data[self::T_AUTHOR_TRANSLATION][] = "($id,'$authorName','en')";
+            $data[self::T_AUTHOR_TRANSLATION][] = "($id,'$authorName','" . Locale::EN . "')";
 
             $bookName = $this->words[array_rand($this->words)];
             $bookName = mb_convert_case($bookName, MB_CASE_TITLE, "UTF-8");
-            $data[self::T_BOOK_TRANSLATION][] = "($id,'$bookName','ru')";
+            $data[self::T_BOOK_TRANSLATION][] = "($id,'$bookName','" . Locale::RU . "')";
             $bookName = $this->lat($bookName);
-            $data[self::T_BOOK_TRANSLATION][] = "($id,'$bookName','en')";
+            $data[self::T_BOOK_TRANSLATION][] = "($id,'$bookName','" . Locale::EN . "')";
 
             $data[self::T_AUTHOR_BOOK][] = "($id,$id)";
         }
