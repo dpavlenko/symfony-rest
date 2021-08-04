@@ -109,25 +109,8 @@ class BookController extends AbstractController
         }
 
         $repo = $this->getDoctrine()->getManager()->getRepository(Book::class);
-        $books = $repo->getBooksByName($json['book_name']);
+        $books = $repo->getBooksUsingIndex($json['book_name']);
 
-        if (empty($books)) {
-            return $this->json(['message' => 'Не найдено ни одной книги']);
-        }
-
-        $data = [];
-
-        foreach ($books as $b) {
-            $translations = $b->getTranslations();
-
-            if (!empty($translations)) {
-                $translations = $translations->toArray();
-                $tr = reset($translations);
-                $locale = $tr ? $tr->getLocale() : 'ru';
-            }
-
-            $data[] = $b->toArray($locale);
-        }
-        return $this->json($data);
+        return $this->json($books);
     }
 }

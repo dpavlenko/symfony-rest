@@ -21,6 +21,7 @@ class BookRepository extends ServiceEntityRepository
 
     /**
      * @return Book[] Returns an array of Book objects
+     * Этот запрос не использует индекс! Поэтому работает медленно.
      */
     public function getBooksByName($name)
     {
@@ -32,5 +33,25 @@ class BookRepository extends ServiceEntityRepository
             ->getQuery()
             ->execute();
 
+    }
+
+
+    public function getBooksUsingIndex($name)
+    {
+        $connection = $this->getEntityManager()->getConnection();
+        $sql = ' SELECT `translatable_id` as `book_id`, `locale` FROM `book_translation` WHERE `name` LIKE :name';
+        $stmt = $connection->prepare($sql);
+        $stmt->execute(['name' => $name ]);
+        $booksIdsAndLocales = $stmt->fetchAllKeyValue();
+        $ids = array_keys($booksIdsAndLocales);
+
+        $books = $this->findBy(['id' => $ids]);
+
+        $result = [];
+        foreach ($books as $b) {
+            $result[]= $b->toArray($booksIdsAndLocales[$b->getId()]);
+        }
+
+        return $result;
     }
 }
