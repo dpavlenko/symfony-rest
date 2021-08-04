@@ -41,7 +41,8 @@
                 <option value="en" autofocus>Английский</option>
             </select>
         </div>
-        Ответ:
+        <br><br>
+        <div id="path"></div>
         <div>
             <pre id="ajax-response"></pre>
         </div>
@@ -61,7 +62,10 @@
             id = parseInt(id.value);
             locale = locale.value;
 
-            let path = `/${locale}/${type}/${id}`;
+            let path = `/${locale}/${type}/${id}`,
+                pathDiv = document.getElementById('path');
+
+            pathDiv.innerText = 'GET ' + path;
 
             getItemByPath(path, 'ajax-response');
         }

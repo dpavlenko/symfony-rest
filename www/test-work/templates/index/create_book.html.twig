@@ -25,15 +25,18 @@
         <h1>Создать книгу</h1>
 
         {{ form(author_form) }}
+        <br><br>
+        Для добавления книги сгенерируйте корректный JSON<br>
+        и отправьте его на сервер.
         <br>
         <hr>
         <button id="gen-JSON">Сгенерировать JSON</button>&nbsp;<button id="send-JSON">Отправить запрос</button>
         <br>
         {{ form(json_form) }}
         <br>
-
+        <div id="path"></div>
         <label for="response">Ответ:</label>
-        <div id="response"></div>
+        <div><pre id="response"></pre></div>
     </div>
 {% endblock %}
 {% block javascripts_bottom %}
