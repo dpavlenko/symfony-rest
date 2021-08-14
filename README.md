@@ -5,8 +5,7 @@
 интуитивно понятный web-интерфейс. Для перевода сущностей на английский язык
 использовалось дополнение для Doctrine 2 "Translatable Behavior". Подробнее
 с ним можно ознакомиться в официальной документации [Symfony][symfonyref] и на 
-странице расширения, т.е. поведения(behavior) для Doctrine 2 [Translatable][knp]. Надо добавить, что поведение 
-Translatable позволяет довольно удобно пользоваться переводами на разные локали (языки).
+странице расширения, т.е. поведения(behavior) для Doctrine 2 [Translatable][knp].
 
 [symfonyref]:https://symfony.com/doc/current/translation.html#translating-database-content
 [knp]:https://github.com/KnpLabs/DoctrineBehaviors/blob/master/docs/translatable.md
