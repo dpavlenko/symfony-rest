@@ -110,7 +110,7 @@ class BookController extends AbstractController
         }
 
         $repo = $this->getDoctrine()->getManager()->getRepository(Book::class);
-        $books = $repo->getBooksUsingIndex(trim($json['book_name']));
+        $books = $repo->getBooksUsingIndex(trim($json['book_name']), true);
 
         return $this->json($books);
     }

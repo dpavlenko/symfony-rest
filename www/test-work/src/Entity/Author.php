@@ -11,6 +11,10 @@ use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 
 
 /**
+ * Author
+ *
+ * @ORM\Table(name="author")
+ * @ORM\Entity
  * @ORM\Entity(repositoryClass=AuthorRepository::class)
  */
 class Author implements TranslatableInterface
@@ -18,17 +22,32 @@ class Author implements TranslatableInterface
     use TranslatableTrait;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Book::class, inversedBy="authors")
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Book", inversedBy="authors")
+     * @ORM\JoinTable(name="author_book",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="book_id", referencedColumnName="id")
+     *   }
+     * )
      */
     private $books;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
         $this->books = new ArrayCollection();
