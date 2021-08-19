@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Author;
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -72,5 +73,14 @@ class IndexController extends AbstractController
             'author_form' => $authorForm->createView(),
             'json_form' => $jsonForm->createView()
         ]);
+    }
+
+    /**
+     * @Route("/info", name="php_info")
+     */
+    public function info()
+    {
+        phpinfo();
+        exit();
     }
 }
